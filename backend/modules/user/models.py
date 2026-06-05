@@ -12,11 +12,11 @@ class User(Base):
     name = Column(String(20),nullable=False)
     phone_number = Column(String(12),nullable=False)
 
-    shop_name = Column(String,nullable=False)
+    shop_name = Column(String(20),nullable=False)
     shop_contact = Column(String(12),nullable=False)
     address = Column(Text,nullable=False)
     city = Column(String(15),nullable=True)
-    gst = Column(Integer,nullable=False)
+    gst = Column(Integer,nullable=True)
 
     created_at = Column(DateTime,nullable=False,default=func.now())
     updated_at = Column(DateTime,nullable=False,default=func.now(),onupdate=func.now())
