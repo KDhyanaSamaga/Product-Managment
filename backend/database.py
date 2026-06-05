@@ -17,14 +17,12 @@ engine = create_engine(
     pool_timeout=30,       # Seconds to wait before throwing a timeout error
     pool_recycle=1800,     # Recycles connections every 30 mins to prevent stale links
     )
-
 # 3. Session factory (using lowercase naming convention to avoid class confusion)
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush= False,
     bind=engine
 )
-
 # 4. Modern declarative base declaration
 Base = declarative_base()
 
@@ -37,4 +35,6 @@ def get_db() -> Generator[Session,None,None]:
         yield db
     finally:
         db.close()
+
+
         

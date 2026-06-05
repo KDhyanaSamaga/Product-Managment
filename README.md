@@ -1,3 +1,4 @@
+```bash
 my_project/
 │
 ├── main.py # App entry point (initializes FastAPI/Flask/etc.)
@@ -23,3 +24,4 @@ my_project/
 ├── models.py # Transaction records (Links customer_id and product_id)
 ├── services.py # Business logic for checking out, calculating totals
 └── router.py # API routes to generate invoices and histories
+```
