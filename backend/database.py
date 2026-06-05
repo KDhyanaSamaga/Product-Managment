@@ -7,7 +7,7 @@ from typing import Generator
 import os
 
 # 1. Fallback for local development if env variable isn't set
-DB_URL = os.getenv("DATABASE_URL")
+DB_URL = os.getenv("DATABASE_URL", "postgresql://admin:123456@localhost:9000/product-management")
 
 # 2. Performance tuning for scalability
 engine = create_engine(
