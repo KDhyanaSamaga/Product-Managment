@@ -1,30 +1,25 @@
-```bash
 my_project/
 │
-├── main.py # Application entry point
-├── config.py # Global configurations / Environment variables
+├── main.py # App entry point (initializes FastAPI/Flask/etc.)
+├── database.py # Contains your engine, SessionLocal, and get_db()
 │
-├── modules/
-│ ├── users/
-│ │ ├── **init**.py
-│ │ ├── models.py # Database schemas / SQLAlchemy definitions
-│ │ ├── schemas.py # Data validation (e.g., Pydantic models)
-│ │ ├── services.py # Core business logic (The "brain" of users)
-│ │ └── router.py # API Endpoints / Controllers
-│ │
-│ ├── products/
-│ │ ├── **init**.py
-│ │ ├── models.py
-│ │ ├── schemas.py
-│ │ ├── services.py # e.g., product inventory checks, price calculations
-│ │ └── router.py
-│ │
-│ └── customers/
-│ ├── **init**.py
-│ ├── models.py
-│ ├── schemas.py
-│ ├── services.py
-│ └── router.py
+└── modules/
+├── users/
+│ ├── models.py # Shop owner table schema
+│ ├── services.py # Login, registration, authentication logic
+│ └── router.py # API routes for profile/auth
 │
-└── database.py # Database engine and session setup
-```
+├── customers/
+│ ├── models.py # Customer demographics (Name, Phone, Email)
+│ ├── services.py # Check if customer exists, create new customer
+│ └── router.py # API routes to view/manage customers
+│
+├── products/
+│ ├── models.py # Product info (Name, Price, Stock count)
+│ ├── services.py # Update stock, add new products, check prices
+│ └── router.py # API routes for inventory management
+│
+└── bills/
+├── models.py # Transaction records (Links customer_id and product_id)
+├── services.py # Business logic for checking out, calculating totals
+└── router.py # API routes to generate invoices and histories

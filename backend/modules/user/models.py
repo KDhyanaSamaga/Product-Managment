@@ -1,8 +1,8 @@
-from sqlalchemy import Column,String,Text,DateTime,func
+from sqlalchemy import Column,String,Text,DateTime,func,Integer
 import uuid
 from sqlalchemy.dialects.postgresql import UUID 
 
-from database import get_db,Base
+from backend.database import get_db,Base
 
 class User(Base):
     __tablename__ = "users"
@@ -16,6 +16,7 @@ class User(Base):
     shop_contact = Column(String(12),nullable=False)
     address = Column(Text,nullable=False)
     city = Column(String(15),nullable=True)
-    
+    gst = Column(Integer(15),nullable=False)
+
     created_at = Column(DateTime,nullable=False,default=func.now())
     updated_at = Column(DateTime,nullable=False,default=func.now(),onupdate=func.now())
