@@ -24,6 +24,8 @@ class User(Base):
 
     name = Column(String(20), nullable=False)
     phone_number = Column(String(12), nullable=False)
+    email = Column(String(50), nullable=False)
+    hashed_password = Column(String(60), nullable=False)
 
     shop_name = Column(String(50), nullable=False)
     shop_contact = Column(String(12), nullable=False)
