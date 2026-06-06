@@ -1,15 +1,15 @@
 from logging.config import fileConfig
 
-from database import Base
-from modules.user.models import User
-from modules.customer.models import Customer
-from modules.product.modules import Product
-from modules.bills.models import  Bill,BillItem
-
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+
+from database import  Base
+
+from modules.product.modules import Product
+from modules.user.models import  User
+from modules.bills.models import Bill,BillItem
 
 
 # this is the Alembic Config object, which provides
