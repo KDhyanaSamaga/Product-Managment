@@ -11,14 +11,7 @@ my_project/
     │ ├── services.py # Login, registration, authentication logic
     │ ├──repository.py # 
     │ └── router.py # API routes for profile/auth
-    │
-    ├── customers/
-    │ ├── models.py # Customer demographics (Name, Phone, Email)
-    │ ├──schemas.py # validation of the data
-    │ ├── services.py # Check if customer exists, create new customer
-    │ ├──repository.py # 
-    │ └── router.py # API routes to view/manage customers
-    │
+    │ 
     ├── products/
     │ ├── models.py # Product info (Name, Price, Stock count)
     │ ├──schemas.py # validation of the data
