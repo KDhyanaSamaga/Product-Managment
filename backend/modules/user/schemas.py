@@ -32,6 +32,9 @@ class LoginUser(BaseModel):
     email: str = Field(..., min_length=1, max_length=20)
     hashed_password: str = Field(..., min_length=1, max_length=20)
 
+class ResetPasswordUser(BaseModel):
+    hashed_password: str
+
 class UserResponse(BaseModel):
     id: UUID
     name: str

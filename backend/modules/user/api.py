@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from utils.security import hash_password,verify_password
-from schemas import LoginUser
+from schemas import LoginUser,ResetPasswordUser,SignupUser
 from repository import UserRepository
 from database import  get_db
 
@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 @router.post("/login")
-async def user_login(payload:LoginUser):
+async def user_login(payload:LoginUser,):
 
 
 @router.post("/signup")
@@ -23,7 +23,7 @@ async def logout():
 async def forgot_password():
 
 @router.patch("/reset-password")
-async def reset_password():
+async def reset_password(payload:ResetPasswordUser):
 
 
 @router.get("/profile")

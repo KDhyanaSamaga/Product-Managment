@@ -68,7 +68,6 @@ class User(Base):
     )
 
 
-
 class RefreshToken(Base):
     __tablename__ = "refresh_tokens"
 
