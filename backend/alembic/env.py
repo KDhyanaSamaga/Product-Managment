@@ -8,7 +8,7 @@ from alembic import context
 from database import  Base
 
 from modules.product.modules import Product
-from modules.user.models import  User
+from modules.user.models import  User,RefreshToken
 from modules.bills.models import Bill,BillItem
 
 
