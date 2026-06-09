@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 @router.post("/login")
-async def user_login(payload:LoginUser,):
+async def user_login(payload:LoginUser):
 
 
 @router.post("/signup")

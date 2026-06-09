@@ -5,5 +5,4 @@ and also dont use this file anywhere
 """
 
 import secrets
-
 print(secrets.token_hex(32))  # 256-bit key
