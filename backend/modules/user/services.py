@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from repository import UserRepository
+from modules.user.repository import UserRepository
 from utils.security import verify_password, hash_password
 from fastapi import HTTPException
 from utils.tokenServices import create_access_token
@@ -39,8 +39,9 @@ class UserServices:
         if existing_user:
             raise HTTPException(status_code=400, detail="Email already registered")
         
-        # Hash the password
-        user_data["hashed_password"] = hash_password(user_data["hashed_password"])
+        # Extract password and generate the hash
+        password = user_data.pop("password")
+        user_data["hashed_password"] = hash_password(password)
         
         # Save user to db
         new_user = self.repository.create_user(user_data)

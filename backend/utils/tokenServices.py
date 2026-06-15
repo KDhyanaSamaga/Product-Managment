@@ -1,18 +1,22 @@
 import os
-from typing import Optional,Dict,Any
+from typing import Optional, Dict, Any
 from datetime import datetime, timedelta, timezone
 import jwt
 import logging
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../../.env'))
 
 logger = logging.getLogger(__name__)
 
 # From the .env file dont mention this anywhere
-SECRET_KEY = os.getenv('SECRET_KEY')
-ALGORITHM = os.getenv('ALGORITHM')
-ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')
+SECRET_KEY = os.getenv('SECRET_KEY', 'your-fallback-secret-key')
+ALGORITHM = os.getenv('ALGORITHM', 'HS256')
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES', 30))
 
 #This function is used to create the token use this function during login and signup
-def create_access_token(data:Dict[str, Any], expires_delta: Optional[timedelta] = None):
+def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
 
     # Set expiration time

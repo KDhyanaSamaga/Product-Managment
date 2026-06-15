@@ -8,3 +8,5 @@ python-dotenv
 argon2-cffi
 python-jose[cryptography]
 passlib[argon2]
+jwt
+PyJWT
