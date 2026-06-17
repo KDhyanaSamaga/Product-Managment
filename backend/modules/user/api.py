@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Response, Depends, HTTPException
+from fastapi import APIRouter, Response, Request, Depends, HTTPException
 from sqlalchemy.orm import Session
-from modules.user.schemas import LoginUser, ResetPasswordUser, SignupUser
+from modules.user.schemas import LoginUser, SignupUser,PasswordChangeUser
 from database import get_db
 from modules.user.services import UserServices
 
@@ -38,9 +38,27 @@ async def logout(response: Response):
 # async def forgot_password():
 #     pass
 
-# @router.patch("/reset-password")
-# async def reset_password(payload: ResetPasswordUser):
-#     pass
+@router.patch("/reset-password")
+async def reset_password(payload: PasswordChangeUser, request: Request, response: Response, db: Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if not token:
+        # Check authorization header as fallback
+        auth_header = request.headers.get("Authorization")
+        if auth_header and auth_header.startswith("Bearer "):
+            token = auth_header
+        else:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    if token.startswith("Bearer "):
+        token = token[7:]
+
+    services = UserServices(db)
+    return services.reset_password(
+        token=token,
+        old_password=payload.old_password,
+        new_password=payload.new_password,
+        confirm_password=payload.confirm_password
+    )
 
 
 # @router.get("/profile")

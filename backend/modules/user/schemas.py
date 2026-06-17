@@ -32,8 +32,13 @@ class LoginUser(BaseModel):
     email: str = Field(..., min_length=1)
     password: str = Field(..., min_length=1, max_length=20)
 
-class ResetPasswordUser(BaseModel):
-    password: str
+# class ResetPasswordUser(BaseModel):
+#     password: str
+
+class PasswordChangeUser(BaseModel):
+    old_password:str
+    new_password:str
+    confirm_password:str
 
 class UserResponse(BaseModel):
     id: UUID

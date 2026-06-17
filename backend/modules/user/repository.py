@@ -17,5 +17,8 @@ class UserRepository:
         self.db.refresh(new_user)
         return new_user
 
-    def reset_password(self, old_password: str, new_password: str):
-        pass
+    def update_password(self, user: User, hashed_password: str):
+        user.hashed_password = hashed_password
+        self.db.commit()
+        self.db.refresh(user)
+        return user

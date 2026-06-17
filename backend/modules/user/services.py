@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from modules.user.repository import UserRepository
 from utils.security import verify_password, hash_password
 from fastapi import HTTPException
-from utils.tokenServices import create_access_token
+from utils.tokenServices import create_access_token,verify_token
 
 class UserServices:
     def __init__(self, db: Session):
@@ -55,4 +55,26 @@ class UserServices:
         
         return access_token, new_user
 
-   # def reset_password(self,old_password:str,new_password:str):
+    def reset_password(self, token: str, old_password: str, new_password: str, confirm_password: str):
+        if new_password != confirm_password:
+            raise HTTPException(status_code=400, detail="Passwords do not match")
+
+        payload = verify_token(token)
+        if not payload:
+            raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+        email = payload.get("email")
+        if not email:
+            raise HTTPException(status_code=401, detail="Invalid token payload")
+
+        user = self.repository.search_by_email(email)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        if not verify_password(old_password, user.hashed_password):
+            raise HTTPException(status_code=401, detail="Incorrect old password")
+
+        new_hashed_password = hash_password(new_password)
+        self.repository.update_password(user, new_hashed_password)
+
+        return {"message": "Password updated successfully"}
