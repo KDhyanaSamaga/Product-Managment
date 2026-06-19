@@ -22,3 +22,13 @@ class UserRepository:
         self.db.commit()
         self.db.refresh(user)
         return user
+
+    def get_user_by_id(self, user_id: str):
+        return self.db.query(User).filter(User.id == user_id).first()
+
+    def update_user(self, user: User, update_data: dict):
+        for key, value in update_data.items():
+            setattr(user, key, value)
+        self.db.commit()
+        self.db.refresh(user)
+        return user

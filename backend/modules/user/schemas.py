@@ -40,6 +40,19 @@ class PasswordChangeUser(BaseModel):
     new_password:str
     confirm_password:str
 
+class ShowProfile(BaseModel):
+    name: str
+    phone_number: str
+    shop_name: str
+    shop_contact: str
+    email: str
+    address: str
+    city: Optional[str] = None
+    gst: str
+
+    class Config:
+        from_attributes = True
+
 class UserResponse(BaseModel):
     id: UUID
     name: str

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Response, Request, Depends, HTTPException
 from sqlalchemy.orm import Session
-from modules.user.schemas import LoginUser, SignupUser,PasswordChangeUser
+from modules.user.schemas import LoginUser, SignupUser, PasswordChangeUser, ShowProfile, UpdateUser
 from database import get_db
 from modules.user.services import UserServices
 
@@ -38,8 +38,7 @@ async def logout(response: Response):
 # async def forgot_password():
 #     pass
 
-@router.patch("/reset-password")
-async def reset_password(payload: PasswordChangeUser, request: Request, response: Response, db: Session = Depends(get_db)):
+def get_token_from_request(request: Request):
     token = request.cookies.get("access_token")
     if not token:
         # Check authorization header as fallback
@@ -51,6 +50,11 @@ async def reset_password(payload: PasswordChangeUser, request: Request, response
     
     if token.startswith("Bearer "):
         token = token[7:]
+    return token
+
+@router.patch("/reset-password")
+async def reset_password(payload: PasswordChangeUser, request: Request, response: Response, db: Session = Depends(get_db)):
+    token = get_token_from_request(request)
 
     services = UserServices(db)
     return services.reset_password(
@@ -61,10 +65,18 @@ async def reset_password(payload: PasswordChangeUser, request: Request, response
     )
 
 
-# @router.get("/profile")
-# async def user_profile():
-#     pass
+@router.get("/profile", response_model=ShowProfile)
+async def user_profile(request: Request, db: Session = Depends(get_db)):
+    """This API endpoint is used to get the user profile and his details and this is used by 
+    the user to see his profile show hiss name"""
+    token = get_token_from_request(request)
+    services = UserServices(db)
+    return services.get_profile(token)
 
-# @router.patch("/profile")
-# async def update_profile():
-#     pass
+@router.patch("/profile", response_model=ShowProfile)
+async def update_profile(payload: UpdateUser, request: Request, db: Session = Depends(get_db)):
+    """This is to update the usser profile just reright his thats it no much just change the data that is 
+    passed by the user"""
+    token = get_token_from_request(request)
+    services = UserServices(db)
+    return services.update_profile(token, payload.dict(exclude_unset=True))

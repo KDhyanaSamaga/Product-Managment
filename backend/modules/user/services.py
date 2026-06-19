@@ -78,3 +78,24 @@ class UserServices:
         self.repository.update_password(user, new_hashed_password)
 
         return {"message": "Password updated successfully"}
+
+    def get_profile(self, token: str):
+        payload = verify_token(token)
+        if not payload:
+            raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+        user_id = payload.get("sub")
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid token payload")
+
+        user = self.repository.get_user_by_id(user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        return user
+
+    def update_profile(self, token: str, update_data: dict):
+        user = self.get_profile(token)
+        filtered_data = {k: v for k, v in update_data.items() if v is not None}
+        updated_user = self.repository.update_user(user, filtered_data)
+        return updated_user
