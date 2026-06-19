@@ -22,12 +22,12 @@ class User(Base):
     )
 
     name = Column(String(20), nullable=False)
-    phone_number = Column(String(12), nullable=False)
-    email = Column(String(50), nullable=False)
+    phone_number = Column(String(12), nullable=False,unique=True)
+    email = Column(String(50), nullable=False,unique=True)
     hashed_password = Column(Text, nullable=False)
 
     shop_name = Column(String(50), nullable=False)
-    shop_contact = Column(String(12), nullable=False)
+    shop_contact = Column(String(12), nullable=False,unique=True)
 
     address = Column(Text, nullable=False)
     city = Column(String(30), nullable=True)
