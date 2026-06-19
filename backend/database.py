@@ -5,9 +5,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from typing import Generator
 
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # 1. Fallback for local development if env variable isn't set
-DB_URL = os.getenv("DATABASE_URL", "postgresql://admin:123456@localhost:9000/product-management")
+DB_URL = os.getenv("DATABASE_URL")
 
 # 2. Performance tuning for scalability
 engine = create_engine(
