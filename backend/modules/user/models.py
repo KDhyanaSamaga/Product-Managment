@@ -26,14 +26,6 @@ class User(Base):
     email = Column(String(50), nullable=False,unique=True)
     hashed_password = Column(Text, nullable=False)
 
-    shop_name = Column(String(50), nullable=False)
-    shop_contact = Column(String(12), nullable=False,unique=True)
-
-    address = Column(Text, nullable=False)
-    city = Column(String(30), nullable=True)
-
-    gst = Column(String(15), nullable=True)
-
     created_at = Column(
         DateTime,
         nullable=False,
@@ -66,6 +58,50 @@ class User(Base):
         cascade="all, delete-orphan"
     )
 
+    shops = relationship(
+        "Shop",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+class Shop(Base):
+    __tablename__ = "shops"
+
+    id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4
+    )
+
+    user_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    shop_name = Column(String(50), nullable=False)
+    shop_contact = Column(String(12), nullable=False,unique=True)
+    address = Column(Text, nullable=False)
+    city = Column(String(30), nullable=True)
+    gst = Column(String(15), nullable=True)
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        default=func.now()
+    )
+    updated_at = Column(
+        DateTime,
+        nullable=False,
+        default=func.now(),
+        onupdate=func.now()
+    )
+
+    user = relationship(
+        "User",
+        back_populates="shops"
+    )
+
+    
 
 class RefreshToken(Base):
     __tablename__ = "refresh_tokens"
@@ -74,7 +110,7 @@ class RefreshToken(Base):
         UUID(as_uuid=True),
         primary_key=True,
         nullable=False,
-        default=uuid.uuid4()
+        default=uuid.uuid4
     )
 
     user_id = Column(
