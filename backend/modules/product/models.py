@@ -29,6 +29,7 @@ class Product(Base):
         nullable=False
     )
 
+
     name = Column(String(50), nullable=False)
 
     description = Column(
