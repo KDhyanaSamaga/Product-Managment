@@ -5,12 +5,14 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from database import  Base
+from database import Base, DB_URL
 
 from modules.product.models import Product
 from modules.user.models import User,RefreshToken
 from modules.bills.models import Bill,BillItem
 
+# Override sqlalchemy.url with the DB_URL from database.py (loaded from .env)
+context.config.set_main_option("sqlalchemy.url", DB_URL)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
